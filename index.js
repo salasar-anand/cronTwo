@@ -3,32 +3,38 @@ const cron = require("node-cron");
 const axios = require("axios");
 
 const app = express();
-const PORT = 4000;
+const PORT = 3000;
 
 // Replace with your target URLs
 const URLS = ["https://crontwo.onrender.com"];
 
 let logs = []; // Store logs
 
-// Function to get formatted time
+// Function to get formatted time in IST
 const getCurrentTime = () => {
   const now = new Date();
-  return now.toLocaleTimeString("en-US", { hour12: true });
+  return new Intl.DateTimeFormat("en-IN", {
+    timeZone: "Asia/Kolkata",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  }).format(now);
 };
 
 // Schedule a cron job to run every 3 minutes
 cron.schedule("*/3 * * * *", async () => {
   const currentTime = getCurrentTime();
-  console.log(`Cron Job Running at: ${currentTime}`);
+  console.log(`Cron Job Running at: ${currentTime} IST`);
 
   for (const url of URLS) {
     try {
       console.log(`Hitting the URL: ${url}`);
       const response = await axios.get(url);
-      const log = `✅ ${currentTime} - Hit ${url} | Status: ${response.status}`;
+      const log = `✅ ${currentTime} IST - Hit ${url} | Status: ${response.status}`;
       logs.unshift(log); // Add new log at the beginning
     } catch (error) {
-      const log = `❌ ${currentTime} - Failed to hit ${url} | Error: ${error.message}`;
+      const log = `❌ ${currentTime} IST - Failed to hit ${url} | Error: ${error.message}`;
       logs.unshift(log);
     }
   }
