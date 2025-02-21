@@ -6,7 +6,7 @@ const app = express();
 const PORT = 4000;
 
 // Replace with your target URLs
-const URLS = ["https://www.youtube.com/watch?v=8xJ2PsGNLo8&list=PLuHGmgpyHfRwUUA1Bi8z07mxaWVuhpAgH&index=8"];
+const URLS = ["https://crontwo.onrender.com"];
 
 let logs = []; // Store logs
 
